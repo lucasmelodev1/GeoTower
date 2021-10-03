@@ -1,8 +1,15 @@
 import React from 'react'
+import useCollision from '../../hooks/useCollision'
 import './index.css'
 
-export default function Sprite({id, cartesianPosition={x:0, y:0}, dir = 3}) {
+export default function Sprite({id, cartesianPosition, dir = 3, toggleCollision}) {
     let image = require(`../../img/sprite/${id}_${dir}.svg`)
+    const {addCollisionPoint, collisionPoint} = useCollision()
+
+    if (toggleCollision) {
+        addCollisionPoint(cartesianPosition)
+    }
+
     return (
         <div className="spriteDiv" style={{
             position: "absolute",

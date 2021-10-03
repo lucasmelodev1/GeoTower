@@ -13,5 +13,5 @@ export default function Player({spriteId}) {
             move(dir)
         };
     })
-    return <Sprite id={spriteId} cartesianPosition={cartesianPosition === 0 ? {x:0, y:25} : cartesianPosition} dir={directions[dir]}/>
+    return <Sprite id={spriteId} toggleCollision={false} cartesianPosition={cartesianPosition === 0 ? {x:0, y:25} : cartesianPosition} dir={directions[dir]}/>
 }

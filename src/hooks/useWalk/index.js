@@ -24,8 +24,8 @@ export default function useWalk() {
     function move(dir) {
         setDir(dir)
         setCartesianPosition((prev) => ({
-            x: (prev.x !== 0 && dir === "a") || (prev.x !== 87.5 && dir === "d") ? prev.x + movementRatio[dir].x : prev.x,
-            y: (prev.y !== 25 && dir === "w") || (prev.y !== 87.5 && dir === "s") ? prev.y + movementRatio[dir].y : prev.y
+            x: prev.x + movementRatio[dir].x > 87.5 || prev.x + movementRatio[dir].x < 0  ? prev.x : prev.x + movementRatio[dir].x,
+            y: prev.y + movementRatio[dir].y > 87.5 || prev.y + movementRatio[dir].y < 25 ? prev.y : prev.y + movementRatio[dir].y
         }))
     }
 
