@@ -1,0 +1,6 @@
+.button:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    filter: brightness(.9);
+    transition-duration: .1s;
+}

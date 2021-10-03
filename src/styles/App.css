@@ -1,0 +1,39 @@
+body {
+  background-color: #b6dbe3;
+  bottom: 0;
+}
+
+.App {
+  display: grid;
+  grid-template-columns: 1fr 90vh 1fr;
+  grid-template-rows: 2vh 80vh 16vh;
+  height: 100vh;
+  width: 100vw;
+  margin: -8px;
+}
+
+.MapDiv {
+  grid-column-start: 2;
+  grid-row-start: 2;
+  position: relative;
+  justify-self: center;
+  max-width: 80vh;
+}
+
+.HudButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.MoveButtons {
+  display: flex;
+  margin-right: 1rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MoveButtonsBottom {
+  display: flex;
+}
