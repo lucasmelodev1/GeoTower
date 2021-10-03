@@ -11,16 +11,16 @@ function App() {
         <Player spriteId={"hero_cyan"}/>
         <div className="HudButtons">
           <div className="MoveButtons">
-            <Button backgroundImageId={"up"}/>
+            <Button backgroundImageId={"up"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'w'}));}}/>
             <div className="MoveButtonsBottom">
-            <Button backgroundImageId={"left"}/>
-            <Button backgroundImageId={"down"}/>
-            <Button backgroundImageId={"right"}/>
+            <Button backgroundImageId={"left"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'a'}));}}/>
+            <Button backgroundImageId={"down"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'s'}));}}/>
+            <Button backgroundImageId={"right"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'d'}));}}/>
             </div>
           </div>
           <div className="ActionButtons">
-            <Button backgroundImageId={"attack"}/>
-            <Button backgroundImageId={"potion"}/>
+            <Button backgroundImageId={"attack"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'e'}));}}/>
+            <Button backgroundImageId={"potion"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'q'}));}}/>
           </div>
         </div>
       </div>

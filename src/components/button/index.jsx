@@ -7,7 +7,11 @@ export default function Button({backgroundImageId, text, font, fn, size}) {
         <div style={{
             margin: "0px 2px"
         }}>
-            <img className="button" src={image} style={{
+            <img className="button" onClick={() => {
+                if (typeof fn === 'function') {
+                    fn()
+                }
+            }} src={image} style={{
                 gridRowStart: 3,
                 height: `8vh`,
             }} alt={""}></img>
