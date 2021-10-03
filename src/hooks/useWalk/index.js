@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 export default function useWalk() {
-    const [cartesianPosition, setCartesianPosition] = useState(0);
-    const [dir, setDir] = useState(0);
+    const [cartesianPosition, setCartesianPosition] = useState(() => {return {x: 0, y: 25}});
+    const [dir, setDir] = useState(() => {return 0});
     
 
     const directions = {
@@ -23,10 +23,6 @@ export default function useWalk() {
 
     function move(dir) {
         setDir(dir)
-        setCartesianPosition((prev) => ({
-            x: prev.x!==undefined ? prev.x : 0,
-            y: prev.y!==undefined ? prev.y : 25
-        }))
         setCartesianPosition((prev) => ({
             x: (prev.x !== 0 && dir === "a") || (prev.x !== 87.5 && dir === "d") ? prev.x + movementRatio[dir].x : prev.x,
             y: (prev.y !== 25 && dir === "w") || (prev.y !== 87.5 && dir === "s") ? prev.y + movementRatio[dir].y : prev.y
