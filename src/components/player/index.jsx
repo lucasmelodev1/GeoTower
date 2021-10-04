@@ -10,8 +10,8 @@ export default function Player({spriteId}) {
         const dir = e.key.replace("Arrow", "").toLowerCase();
         if(["w", "d", "s", "a"].includes(e.key))
         {
-            move(dir)
+            move(dir, cartesianPosition)
         };
     })
-    return <Sprite id={spriteId} toggleCollision={false} cartesianPosition={cartesianPosition === 0 ? {x:0, y:25} : cartesianPosition} dir={directions[dir]}/>
+    return <Sprite id={spriteId} toggleCollision={false} cartesianPosition={cartesianPosition} dir={directions[dir]}/>
 }
