@@ -1,6 +1,5 @@
 import { useEffect } from "react"
-
-export const collisionPoints = []
+import { collisionPoints } from "../../components/map"
 
 export default function useAddCollision(cartesianPosition) {
 
