@@ -16,12 +16,13 @@ const Enemy = forwardRef(({spriteId, refIndex, positionSetStates, positionState,
     const changeCurrentHp = (value, enemyRef) => {
         setCurrentHp(enemyRef.currentHp += value);
     };
-
+    
     useEffect(() => {
         if (positionState.collisionPoints.points.find(e => JSON.stringify(e) === JSON.stringify({...cartesianPosition})) === undefined) {
             positionSetStates.addCollisionPoint({refIndex,...cartesianPosition})
             positionSetStates.addBattlePoints({refIndex, ...points})
         }
+         // eslint-disable-next-line
     }, [])
     
     useImperativeHandle(ref, () => ({

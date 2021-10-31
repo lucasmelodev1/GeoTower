@@ -1,21 +1,19 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Enemy from '../enemy';
 import Player from '../player';
 import usePositionTracker from '../../hooks/usePositionTracker';
 import useKeyPress from '../../hooks/useKeyPress';
 import isEqual from '../../functions/isEqual';
-import battle from '../../functions/battle';
+import Battle from '../../functions/Battle';
 
 export default function Map({mapId}) {
     let image = require(`../../img/maps/${mapId}.svg`).default
 
     const enemiesRefs = useRef([]);
     const playerRef = useRef();
-
-    const [attackIsReady, setAttackIsReady] = useState({value: true})
     
     const {collisionPoints, addCollisionPoint, removeCollisionPoint, battlePoints, addBattlePoints, removeBattlePoints} = usePositionTracker();
-    const {changeCurrentHp} = battle()
+    const {changeCurrentHp, attackIsReady, setAttackIsReady} = Battle()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const mapEnemies = {
@@ -31,13 +29,19 @@ export default function Map({mapId}) {
     }
 
     useKeyPress((e) => {
-        const currentBattlePointIndex = battlePoints.points.findIndex(e => Object.values(e).filter(e => isEqual(e, {x: playerRef.current.cartesianPosition.x, y: playerRef.current.cartesianPosition.y})).length >= 1)
         if (["q"].includes(e.key) && attackIsReady.value) {
+            const currentBattlePointIndex = battlePoints.points.findIndex(e => Object.values(e).filter(e => isEqual(e, {x: playerRef.current.cartesianPosition.x, y: playerRef.current.cartesianPosition.y})).length >= 1)
             if ( currentBattlePointIndex !== -1 && !enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex].isDead.value ) {
+                //set attack cooldown
                 setAttackIsReady({value: false})
-                setTimeout(() => {setAttackIsReady({value: true})}, 1500);
+                setTimeout(() => {setAttackIsReady({value: true}); clearInterval(interval)}, 1500);
+                //attack
                 const currentEnemy = enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex]
+                function enemyAttack() {
+                    changeCurrentHp(-currentEnemy.attack, playerRef.current, {addCollisionPoint, removeCollisionPoint, addBattlePoints, removeBattlePoints})
+                }
                 changeCurrentHp(-playerRef.current.attack, currentEnemy, {addCollisionPoint, removeCollisionPoint, addBattlePoints, removeBattlePoints});
+                let interval = setInterval(enemyAttack, 1400);
                 return
             }
         }

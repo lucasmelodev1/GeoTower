@@ -3,9 +3,10 @@ import './index.css'
 
 export default function Button({backgroundImageId, fn}) {
     let image = require(`../../img/buttons/${backgroundImageId}_key.svg`).default
+
     return (
         <div style={{
-            margin: "0px 2px"
+            margin: "0px 2px",
         }}>
             <img className="button" onClick={() => {
                 if (typeof fn === 'function') {

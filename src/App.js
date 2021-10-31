@@ -7,9 +7,6 @@ function App() {
   return (
     <div className="App">
       <div className="GameScreen">
-        <div className="Stats">
-          <HpBar currentHp={50} maxHp={100}/>
-        </div>
         <div className="MapDiv">
           <Map mapId={"grass_map"}/>
         </div>
