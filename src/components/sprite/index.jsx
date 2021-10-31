@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
+import './index.css';
 
-import './index.css'
-
-export default function Sprite({id, cartesianPosition, dir = 3, toggleCollision}) {
-    let image = require(`../../img/sprite/${id}_${dir}.svg`)
-
+const Sprite = ({id, cartesianPosition, dir = 3}) => {
+    let image = require(`../../img/sprite/${id}_${dir}.svg`);
+    
     return (
         <div className="spriteDiv" style={{
             position: "absolute",
@@ -16,5 +15,7 @@ export default function Sprite({id, cartesianPosition, dir = 3, toggleCollision}
                 height: "9vh",
             }}/>
         </div>
-    )
+    );
 }
+
+export default Sprite;

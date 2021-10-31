@@ -1,14 +1,15 @@
 import './styles/App.css';
 import Map from './components/map';
-import Player from './components/player';
 import Button from './components/button';
-import Enemy from './components/enemy';
+import HpBar from './components/hpbar'
 
 function App() {
   return (
     <div className="App">
       <div className="GameScreen">
-        <Player spriteId={"hero_cyan"}/>
+        <div className="Stats">
+          <HpBar currentHp={50} maxHp={100}/>
+        </div>
         <div className="MapDiv">
           <Map mapId={"grass_map"}/>
         </div>
@@ -22,8 +23,8 @@ function App() {
             </div>
           </div>
           <div className="ActionButtons">
-            <Button backgroundImageId={"attack"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'e'}));}}/>
-            <Button backgroundImageId={"potion"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'q'}));}}/>
+            <Button backgroundImageId={"attack"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'q'}))}}/>
+            <Button backgroundImageId={"potion"} fn={() => {window.dispatchEvent(new Event('playerHeal'));}}/>
           </div>
         </div>
       </div>

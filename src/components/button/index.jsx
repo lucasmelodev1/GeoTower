@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.css'
 
-export default function Button({backgroundImageId, text, font, fn, size}) {
+export default function Button({backgroundImageId, fn}) {
     let image = require(`../../img/buttons/${backgroundImageId}_key.svg`).default
     return (
         <div style={{

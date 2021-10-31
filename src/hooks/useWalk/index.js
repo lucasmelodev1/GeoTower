@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { collisionPoints } from "../useAddCollision";
 
-export default function useWalk() {
-    const [cartesianPosition, setCartesianPosition] = useState(() => {return {x: 0, y: 0}});
+export default function useWalk(mapCollisionPoints) {
+    const [cartesianPosition, setCartesianPosition] = useState({x: 0, y: 0});
     const [dir, setDir] = useState(() => {return 0});
     
 
@@ -29,14 +28,14 @@ export default function useWalk() {
         if(!(nextXStep > 87.5 || nextXStep < 0
             ||
             nextYStep > 62.5 || nextYStep < 0
-            || collisionPoints.find(obj => obj.x === nextXStep && obj.y === nextYStep) !== undefined))
+            || mapCollisionPoints.find(obj => obj.x === nextXStep && obj.y === nextYStep) !== undefined))
         {
             setCartesianPosition((prev) => ({
                 x: prev.x + movementRatio[dir].x,
                 y: prev.y + movementRatio[dir].y
             }))
         }
-    }
+    };
 
     return {
         cartesianPosition, dir, directions, move
