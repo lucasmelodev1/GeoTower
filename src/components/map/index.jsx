@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import Enemy from '../enemy';
 import Player from '../player';
 import usePositionTracker from '../../hooks/usePositionTracker';
@@ -11,6 +11,8 @@ export default function Map({mapId}) {
 
     const enemiesRefs = useRef([]);
     const playerRef = useRef();
+
+    const [attackIsReady, setAttackIsReady] = useState({value: true})
     
     const {collisionPoints, addCollisionPoint, removeCollisionPoint, battlePoints, addBattlePoints, removeBattlePoints} = usePositionTracker();
     const {changeCurrentHp} = battle()
@@ -30,9 +32,10 @@ export default function Map({mapId}) {
 
     useKeyPress((e) => {
         const currentBattlePointIndex = battlePoints.points.findIndex(e => Object.values(e).filter(e => isEqual(e, {x: playerRef.current.cartesianPosition.x, y: playerRef.current.cartesianPosition.y})).length >= 1)
-        if (["q"].includes(e.key)) {
-            if ( currentBattlePointIndex !== -1 && !enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex].isDead ) {
-                //currentEnemy.changeCurrentHp(-playerRef.current.attack, currentEnemy)
+        if (["q"].includes(e.key) && attackIsReady.value) {
+            if ( currentBattlePointIndex !== -1 && !enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex].isDead.value ) {
+                setAttackIsReady({value: false})
+                setTimeout(() => {setAttackIsReady({value: true})}, 1500);
                 const currentEnemy = enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex]
                 changeCurrentHp(-playerRef.current.attack, currentEnemy, {addCollisionPoint, removeCollisionPoint, addBattlePoints, removeBattlePoints});
                 return

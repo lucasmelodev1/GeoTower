@@ -13,17 +13,18 @@ export default function usePositionTracker() {
     const removeCollisionPoint = (collisionPoint) => {
         const index = collisionPoints.points.findIndex(e => isEqual(e, collisionPoint));
         if (index !== -1) {
-            setCollisionPoints((prev) => prev.points.filter((_, filterIndex) => filterIndex !== index))
+            setCollisionPoints((prev) => ({points: prev.points.filter((_, filterIndex) => filterIndex !== index)}))
         }
+        debugger
     }
 
     const addBattlePoints = (battlePointsObj) => {
         setBattlePoints((prev) => ({points: [...prev.points, battlePointsObj]}));
     }
 
-    const removeBattlePoints = (battlePointsArray) => {
-        const index = battlePoints.points.findIndex(e => arrayEquals(Object.values(e), Object.values(battlePointsArray)));
-        setBattlePoints({points: battlePoints.points.filter((_, filterIndex) => filterIndex !== index)})
+    const removeBattlePoints = (battlePointsObj) => {
+        const index = battlePoints.points.findIndex(e => arrayEquals(Object.values(e), Object.values(battlePointsObj)));
+        setBattlePoints((prev) => ({points: prev.points.filter((_, filterIndex) => filterIndex !== index)}))
     }
 
     return {

@@ -1,18 +1,18 @@
 export default function battle() {
 
     const changeCurrentHp = (value, ref, positionSetStates) => {
+
         ref.changeCurrentHp(value, ref)
         if (value<0) {
-            ref.setIsInBattle(true);
-            //setTimeout(setBattleOff,3000);
+            ref.setIsInBattle({value: true});
+            setTimeout(() => {ref.setIsInBattle(false)},3000);
         }
         if (ref.currentHp <= 0) {
-            ref.setIsDead(true);
-            ref.setIsInBattle(false);
-            positionSetStates.removeCollisionPoint(ref.cartesianPosition);
+            ref.setIsDead({value: true});
+            ref.setIsInBattle({value: false});
+            positionSetStates.removeCollisionPoint({refIndex: ref.refIndex ,...ref.cartesianPosition});
             positionSetStates.removeBattlePoints({...ref.points, refIndex: ref.refIndex});
         }
-        debugger
     }
 
     return {changeCurrentHp};

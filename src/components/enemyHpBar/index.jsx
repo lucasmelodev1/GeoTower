@@ -11,8 +11,7 @@ export default function EnemyHpBar({enemyPosition, currentHp, maxHp}) {
             position: 'absolute',
             bottom: `${enemyPosition.y + 12.5}%`,
             left: `${enemyPosition.x}%`,
-            imageRendering: 'pixelated'
-
+            imageRendering: 'pixelated',
         }}>
             <svg xmlns="http://www.w3.org/2000/svg" width={`${width}vh`} viewBox="0 -0.5 32 16" shapeRendering="crispEdges">
                 <path stroke="#595652" d="M1 0h11M0 1h2M11 1h2M0 2h1M12 2h1M0 3h1M12 3h1M0 4h1M12 4h1M0 5h1M12 5h1M0 6h1M12 6h2M0 7h1M13 7h18M0 8h1M30 8h2M0 9h1M3 9h26M31 9h1M0 10h1M2 10h2M28 10h2M31 10h1M0 11h1M2 11h2M28 11h2M31 11h1M0 12h1M2 12h2M28 12h2M31 12h1M0 13h1M3 13h26M31 13h1M0 14h2M30 14h2M1 15h30" />
