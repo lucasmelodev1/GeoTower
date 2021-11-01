@@ -1,19 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import Enemy from '../enemy';
 import Player from '../player';
 import usePositionTracker from '../../hooks/usePositionTracker';
 import useKeyPress from '../../hooks/useKeyPress';
 import isEqual from '../../functions/isEqual';
-import Battle from '../../functions/Battle';
+import useBattle from '../../hooks/useBattle';
 
-export default function Map({mapId}) {
+const Map = forwardRef(({mapId}, ref) => {
     let image = require(`../../img/maps/${mapId}.svg`).default
 
     const enemiesRefs = useRef([]);
     const playerRef = useRef();
     
     const {collisionPoints, addCollisionPoint, removeCollisionPoint, battlePoints, addBattlePoints, removeBattlePoints} = usePositionTracker();
-    const {changeCurrentHp, attackIsReady, setAttackIsReady} = Battle()
+    const {attackEnemy, attackIsReady, setAttackIsReady, regenIsReady, setRegenIsReady, playerRegen} = useBattle({addCollisionPoint, removeCollisionPoint, addBattlePoints, removeBattlePoints}, playerRef.current)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const mapEnemies = {
@@ -28,34 +28,44 @@ export default function Map({mapId}) {
         )})}</>
     }
 
-    useKeyPress((e) => {
-        if (["q"].includes(e.key) && attackIsReady.value) {
+    const useAttack = () => {
+        if (attackIsReady.value) {
             const currentBattlePointIndex = battlePoints.points.findIndex(e => Object.values(e).filter(e => isEqual(e, {x: playerRef.current.cartesianPosition.x, y: playerRef.current.cartesianPosition.y})).length >= 1)
-            if ( currentBattlePointIndex !== -1 && !enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex].isDead.value ) {
+            if ( currentBattlePointIndex !== -1 && !enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex].isDead.value) {
                 //set attack cooldown
                 setAttackIsReady({value: false})
-                setTimeout(() => {setAttackIsReady({value: true}); clearInterval(interval)}, 1500);
+                setTimeout(() => {setAttackIsReady({value: true})}, 1500);
                 //attack
                 const currentEnemy = enemiesRefs.current[battlePoints.points[currentBattlePointIndex].refIndex]
-                function enemyAttack() {
-                    changeCurrentHp(-currentEnemy.attack, playerRef.current, {addCollisionPoint, removeCollisionPoint, addBattlePoints, removeBattlePoints})
-                }
-                changeCurrentHp(-playerRef.current.attack, currentEnemy, {addCollisionPoint, removeCollisionPoint, addBattlePoints, removeBattlePoints});
-                let interval = setInterval(enemyAttack, 1400);
+                attackEnemy(playerRef.current.attack, currentEnemy);
                 return
             }
         }
-    });
+    }
 
-    return (
-        <div>
-            <img src={image} alt={""} style={{
-                height: "80vh",
-            }}/>
-            <div className="MapDiv">
-                <Player ref={playerRef} mapCollisionPoints={collisionPoints.points} spriteId={"hero_cyan"}/>
-                {mapElements[mapId]}
-            </div>
+    const useRegen = () => {
+        if (playerRef.current.currentHp.value > 0 && regenIsReady.value) {
+            setRegenIsReady({value: false})
+            playerRegen();
+            setTimeout(() => {setRegenIsReady({value: true})}, 800);
+        }
+    }
+
+    useImperativeHandle(ref, () => ({
+        useAttack,
+        useRegen
+    }));
+
+    return <div>
+        <img src={image} alt={""} style={{
+            height: "80vh",
+        }}/>
+        <div className="MapDiv">
+            <Player ref={playerRef} mapCollisionPoints={collisionPoints.points} spriteId={"hero_cyan"}/>
+            {mapElements[mapId]}
         </div>
-    );
-}
+    </div>
+    ;
+});
+
+export default Map;

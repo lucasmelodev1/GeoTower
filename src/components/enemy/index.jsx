@@ -3,7 +3,7 @@ import Sprite from '../sprite';
 import EnemyHpBar from '../enemyHpBar';
 
 const Enemy = forwardRef(({spriteId, refIndex, positionSetStates, positionState, cartesianPosition, maxHp=100, attack=10, regen=10}, ref) => {
-    const [currentHp, setCurrentHp] = useState(maxHp);
+    const [currentHp, setCurrentHp] = useState({value: maxHp});
     const [isDead, setIsDead] = useState({value: false});
     const [isInBattle, setIsInBattle] = useState({value: false});
 
@@ -13,8 +13,8 @@ const Enemy = forwardRef(({spriteId, refIndex, positionSetStates, positionState,
         { x: cartesianPosition.x, y: cartesianPosition.y + 12.5 },
         { x: cartesianPosition.x, y: cartesianPosition.y - 12.5 }]
 
-    const changeCurrentHp = (value, enemyRef) => {
-        setCurrentHp(enemyRef.currentHp += value);
+    const changeCurrentHp = (value) => {
+        setCurrentHp((prev) => ({value: prev.value += value}));
     };
     
     useEffect(() => {
@@ -42,7 +42,7 @@ const Enemy = forwardRef(({spriteId, refIndex, positionSetStates, positionState,
     return (
         <div>
             {!isDead.value ? <Sprite id={spriteId} cartesianPosition={cartesianPosition}/> : null}
-            {isInBattle.value ? <EnemyHpBar enemyPosition={cartesianPosition} currentHp={currentHp} maxHp={maxHp} /> : null}
+            {isInBattle.value ? <EnemyHpBar enemyPosition={cartesianPosition} currentHp={currentHp.value} maxHp={maxHp} /> : null}
         </div>
     )
 });

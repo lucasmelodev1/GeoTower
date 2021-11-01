@@ -4,7 +4,7 @@ export default function HpBar({currentHp, maxHp}) {
     const fullWidth = 26;
 
     const lifePercent = currentHp / maxHp;
-    const pixelFill = Math.floor(fullWidth * lifePercent)
+    const pixelFill = fullWidth * lifePercent
 
     return (
         <div style={{

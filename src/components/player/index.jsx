@@ -4,7 +4,7 @@ import useKeyPress from '../../hooks/useKeyPress';
 import useWalk from '../../hooks/useWalk';
 import HpBar from '../hpbar';
 
-const Player = forwardRef(({spriteId, mapCollisionPoints, maxHp=100, attack=25}, ref) => {
+const Player = forwardRef(({spriteId, mapCollisionPoints, maxHp=100, attack=25, regen=5}, ref) => {
     const { cartesianPosition, dir, directions, move } = useWalk(mapCollisionPoints);
     const [currentHp, setCurrentHp] = useState({value: maxHp});
     const [isDead, setIsDead] = useState({value: false});
@@ -18,8 +18,9 @@ const Player = forwardRef(({spriteId, mapCollisionPoints, maxHp=100, attack=25},
         };
     })
 
-    function changeCurrentHp(damage) {
-        setCurrentHp((prev) => ({value: prev.value + damage}))
+    function changeCurrentHp(value) {
+        setCurrentHp((prev) => ({value: prev.value + value > maxHp ? maxHp : prev.value + value}))
+        debugger
     }
     
     useImperativeHandle(ref, () => ({
@@ -32,6 +33,7 @@ const Player = forwardRef(({spriteId, mapCollisionPoints, maxHp=100, attack=25},
         currentHp,
         attack,
         dir,
+        regen,
         changeCurrentHp
     }));
 

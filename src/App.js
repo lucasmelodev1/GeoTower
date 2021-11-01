@@ -1,14 +1,25 @@
 import './styles/App.css';
 import Map from './components/map';
 import Button from './components/button';
-import HpBar from './components/hpbar'
+import { useRef } from 'react'
 
 function App() {
+
+  const mapRef = useRef()
+
+  const attack = () => {
+    mapRef.current.useAttack();
+  }
+
+  const regen = () => {
+    mapRef.current.useRegen();
+  }
+
   return (
     <div className="App">
       <div className="GameScreen">
         <div className="MapDiv">
-          <Map mapId={"grass_map"}/>
+          <Map mapId={"grass_map"} ref={mapRef}/>
         </div>
         <div className="HudButtons">
           <div className="MoveButtons">
@@ -20,8 +31,8 @@ function App() {
             </div>
           </div>
           <div className="ActionButtons">
-            <Button backgroundImageId={"attack"} fn={() => {window.dispatchEvent(new KeyboardEvent('keypress',{'key':'q'}))}}/>
-            <Button backgroundImageId={"potion"} fn={() => {window.dispatchEvent(new Event('playerHeal'));}}/>
+            <Button backgroundImageId={"attack"} fn={attack}/>
+            <Button backgroundImageId={"potion"} fn={regen}/>
           </div>
         </div>
       </div>
